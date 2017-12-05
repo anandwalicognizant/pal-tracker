@@ -2,6 +2,9 @@ cf-api-url: api.system.cumuluslabs.io
 cf-username: anand.walishetti@cognizant.com
 cf-password: 366d7e48
 cf-org: awalishetti-Boulder-PAL
+aws-access-key-id: AKIAIEA5FRP3VAKH73HQ
+aws-secret-access-key: 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
+aws-bucket: student-artifacts-huron
 github-repository: git@github.com:anandwalicognizant/pal-tracker.git
 github-private-key: |
   -----BEGIN RSA PRIVATE KEY-----
