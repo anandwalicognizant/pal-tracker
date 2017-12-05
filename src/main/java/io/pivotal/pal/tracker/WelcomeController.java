@@ -14,7 +14,7 @@ public class WelcomeController {
 
     String welcomeMessage;
 
-    public WelcomeController(@Value("${welcome.message}")String message){
+    public WelcomeController(@Value("${WELCOME_MESSAGE}")String message){
         this.welcomeMessage = message;
     }
 
