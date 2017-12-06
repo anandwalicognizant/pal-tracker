@@ -6,5 +6,5 @@ applications:
   services:
   - tracker-database
  # random-route: true
- # env:
- #   WELCOME_MESSAGE: Hello from Cloud Foundry
+  env:
+    MANAGEMENT_SECURITY_ENABLED : false
