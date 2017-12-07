@@ -16,6 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+/**
+ * Created by aw169 on 12/7/17.
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = PalTrackerApplication.class, webEnvironment = RANDOM_PORT)
 public class SecurityApiTest {
@@ -30,8 +33,8 @@ public class SecurityApiTest {
     @Before
     public void setUp() throws Exception {
         RestTemplateBuilder builder = new RestTemplateBuilder()
-            .rootUri("http://localhost:" + port)
-            .basicAuthorization("user", "password");
+                .rootUri("http://localhost:" + port)
+                .basicAuthorization("user", "password");
 
         authorizedRestTemplate = new TestRestTemplate(builder);
     }

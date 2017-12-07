@@ -7,4 +7,5 @@ applications:
   - tracker-database
  # random-route: true
   env:
-    MANAGEMENT_SECURITY_ENABLED : false
+    #MANAGEMENT_SECURITY_ENABLED : false
+    SECURITY_FORCE_HTTPS : true

@@ -8,8 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(classes = PalTrackerApplication.class, webEnvironment = RANDOM_PORT)
 public class TimeEntryApiTest {
 
+    @LocalServerPort
+    private String port;
+
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -40,6 +45,12 @@ public class TimeEntryApiTest {
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.execute("TRUNCATE time_entries");
+
+        RestTemplateBuilder builder = new RestTemplateBuilder()
+            .rootUri("http://localhost:" + port)
+            .basicAuthorization("user", "password");
+
+        restTemplate = new TestRestTemplate(builder);
     }
 
     @Test
@@ -60,10 +71,7 @@ public class TimeEntryApiTest {
     @Test
     public void testList() throws Exception {
         Long id = createTimeEntry();
-
-
         ResponseEntity<String> listResponse = restTemplate.getForEntity("/time-entries", String.class);
-
 
         assertThat(listResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -79,11 +87,7 @@ public class TimeEntryApiTest {
     @Test
     public void testRead() throws Exception {
         Long id = createTimeEntry();
-
-
         ResponseEntity<String> readResponse = this.restTemplate.getForEntity("/time-entries/" + id, String.class);
-
-
         assertThat(readResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         DocumentContext readJson = parse(readResponse.getBody());
         assertThat(readJson.read("$.id", Long.class)).isEqualTo(id);
@@ -97,8 +101,6 @@ public class TimeEntryApiTest {
     public void testUpdate() throws Exception {
         Long id = createTimeEntry();
         TimeEntry updatedTimeEntry = new TimeEntry(2, 3, LocalDate.parse("2017-01-09"), 9);
-
-
         ResponseEntity<String> updateResponse = restTemplate.exchange("/time-entries/" + id, HttpMethod.PUT, new HttpEntity<>(updatedTimeEntry, null), String.class);
 
 
